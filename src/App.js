@@ -1,25 +1,65 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Button, Grid, Slider, Box, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { PointCloudAPI } from "./api/PointCloudAPI.js";
+import Canvas from "./Canvas.js";
+import Sidebar from "./Sidebar.js";
+import useStyles from "./useStyles";
 
 function App() {
+  const classes = useStyles();
+  const [dataset, setDataset] = useState(null);
+  const [points, setPoints] = useState([]);
+
+  const fetchPointCloud = (dataset, frameNum) => {
+    PointCloudAPI.loadFrame(dataset.id, frameNum)
+      .then((points) => {
+        setPoints(points);
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+  useEffect(() => {
+    const fetchDataset = () => {
+      PointCloudAPI.loadDataset(0)
+        .then((dataset) => {
+          console.log(`Dataset [${dataset.id}] loaded`);
+          setDataset(dataset);
+          //fetchPointCloud(dataset, 0);
+        })
+        .catch((err) => {
+          console.log(err.stack);
+          console.trace();
+          alert(err);
+        });
+    };
+    // Renders on mount and unmount
+    //fetchDataset();
+    setDataset({id:0, numFrames: 10})
+  }, []);
+
+  if (dataset === null) {
+    return <div>Loading...</div>;
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <Canvas points={points} />
+      {/* <Sidebar /> */}
+      <Box className={classes.timeline}>
+        <Slider
+          defaultValue={0}
+          getAriaValueText={() => "hi"}
+          aria-labelledby="discrete-slider"
+          valueLabelDisplay="auto"
+          step={1}
+          marks
+          min={0}
+          max={dataset.numFrames-1}
+          onChangeCommitted={(e, value) => fetchPointCloud(dataset, value)}
+        ></Slider>
+      </Box>
+    </React.Fragment>
   );
 }
 
