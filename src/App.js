@@ -26,7 +26,7 @@ function App() {
         .then((dataset) => {
           console.log(`Dataset [${dataset.id}] loaded`);
           setDataset(dataset);
-          //fetchPointCloud(dataset, 0);
+          fetchPointCloud(dataset, 0);
         })
         .catch((err) => {
           console.log(err.stack);
@@ -35,8 +35,7 @@ function App() {
         });
     };
     // Renders on mount and unmount
-    //fetchDataset();
-    setDataset({id:0, numFrames: 10})
+    fetchDataset();
   }, []);
 
   if (dataset === null) {

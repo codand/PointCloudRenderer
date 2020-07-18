@@ -1,21 +1,42 @@
+import { deflate, gunzip } from 'zlib';
+import { promisify } from 'util';
+
 const DEFAULT_CONFIG = {
-  host: "http://localhost:5000",
+  host: "https://cmandrews-lidar.s3-us-west-2.amazonaws.com/datasets",
   timeout: 30000,
 };
 
 function handleErrors(response) {
-  console.log("Handle errors");
   if (!response.ok) {
     throw Error(`Received bad HTTP response: ${response.statusText}`);
   }
   return response;
 }
 
-const apiRequest = async (endpoint, args, config) => {
+function logResponse(response) {
+  console.log(response);
+  return response;
+}
+
+const unzipBuffer = promisify(gunzip);
+function unzipResponse(response) {
+  //const buffer = new FileReader().readAsArrayBuffer(response);
+  return unzipBuffer(response.getReader(), (err, buffer) => {
+    console.log("Unzipping");
+    if (err) {
+      throw Error(`Failed to decompress point cloud: ${err}`);
+    }
+    console.log("Unzip")
+    return buffer.toString()
+  });
+}
+
+const apiRequest = async (args, config) => {
   config = { ...DEFAULT_CONFIG, ...config };
 
-  const url = `${config.host}/${endpoint}/${args.join("/")}`;
+  const url = `${config.host}/${args.join("/")}.json`;
   console.log(`API Request [${url}]`);
+  
 
   // Handle timeout
   const controller = new AbortController();
@@ -24,19 +45,24 @@ const apiRequest = async (endpoint, args, config) => {
 
   return fetch(url, { signal })
     .then(handleErrors)
-    .then(response => {
-      console.log("This is a response")
-      clearTimeout(timeoutId)
+    // .then(response => response.blob())
+    // .then(unzipResponse)
+    //.then(logResponse)
+    //.then(r => r.body)
+    //.then(unzipResponse)
+    .then(response => {;
+      clearTimeout(timeoutId);
       return response.json();
     })
 };
 
 const loadFrame = async (datasetID, frameNum, config) => {
-  return apiRequest("pointcloud", [datasetID, frameNum], config);
+  return apiRequest([datasetID, frameNum], config);
 };
 
 const loadDataset = async (datasetID, config) => {
-  return apiRequest("pointcloud", [datasetID], config);
+  return {id:0, numFrames:5}
+  return apiRequest([datasetID], config);
 };
 
 const PointCloudAPI = { loadFrame, loadDataset };
