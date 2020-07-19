@@ -21,6 +21,7 @@ class PointCloudRenderer {
   _initRenderer(container) {
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    //renderer.setSize(document.documentElement.clientWidth, document.documentElement.clientHeight);
     container.appendChild(renderer.domElement);
 
     return renderer;

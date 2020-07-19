@@ -21,6 +21,16 @@ const useStyles = makeStyles((theme) => ({
     padding: '0 3em 0 3em',
     width: '100%',
   },
+  tooltip: {
+    position: 'absolute',
+    bottom: '0.5em',
+    right: '0.5em',
+  },
+  controls: {
+    position: 'absolute',
+    bottom: '6em',
+    left: "2em"
+  }
 }));
 
 export default useStyles;

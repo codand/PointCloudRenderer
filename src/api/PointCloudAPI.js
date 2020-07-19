@@ -1,5 +1,5 @@
-import { deflate, gunzip } from 'zlib';
-import { promisify } from 'util';
+import { deflate, gunzip } from "zlib";
+import { promisify } from "util";
 
 const DEFAULT_CONFIG = {
   host: "https://cmandrews-lidar.s3-us-west-2.amazonaws.com/datasets",
@@ -26,8 +26,8 @@ function unzipResponse(response) {
     if (err) {
       throw Error(`Failed to decompress point cloud: ${err}`);
     }
-    console.log("Unzip")
-    return buffer.toString()
+    console.log("Unzip");
+    return buffer.toString();
   });
 }
 
@@ -36,24 +36,25 @@ const apiRequest = async (args, config) => {
 
   const url = `${config.host}/${args.join("/")}.json`;
   console.log(`API Request [${url}]`);
-  
 
   // Handle timeout
   const controller = new AbortController();
   const signal = controller.signal;
   const timeoutId = setTimeout(() => controller.abort(), config.timeout);
 
-  return fetch(url, { signal })
-    .then(handleErrors)
-    // .then(response => response.blob())
-    // .then(unzipResponse)
-    //.then(logResponse)
-    //.then(r => r.body)
-    //.then(unzipResponse)
-    .then(response => {;
-      clearTimeout(timeoutId);
-      return response.json();
-    })
+  return (
+    fetch(url, { signal })
+      .then(handleErrors)
+      // .then(response => response.blob())
+      // .then(unzipResponse)
+      //.then(logResponse)
+      //.then(r => r.body)
+      //.then(unzipResponse)
+      .then((response) => {
+        clearTimeout(timeoutId);
+        return response.json();
+      })
+  );
 };
 
 const loadFrame = async (datasetID, frameNum, config) => {
@@ -61,8 +62,8 @@ const loadFrame = async (datasetID, frameNum, config) => {
 };
 
 const loadDataset = async (datasetID, config) => {
-  return {id:0, numFrames:5}
-  return apiRequest([datasetID], config);
+  return { id: datasetID, numFrames: 50 };
+  //return apiRequest([datasetID], config);
 };
 
 const PointCloudAPI = { loadFrame, loadDataset };

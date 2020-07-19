@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useLayoutEffect, useEffect, useRef } from "react";
 import PointCloudRenderer from "./rendering/PointCloudRenderer.js";
 
 const Canvas = (props) => {
@@ -7,7 +7,6 @@ const Canvas = (props) => {
 
   useEffect(() => {
     // Initialize three and attach to dom
-    console.log("Int");
     pcl.current = new PointCloudRenderer(div.current);
   }, []);
 
@@ -15,7 +14,7 @@ const Canvas = (props) => {
     pcl.current.setPoints(props.points);
   }, [props.points]);
 
-  return <div ref={div} style={{backgroundColor: 'black'}}></div>;
+  return <div ref={div} style={{width: '100vw', height: '100vh'}}></div>;
 };
 
 export default Canvas;
