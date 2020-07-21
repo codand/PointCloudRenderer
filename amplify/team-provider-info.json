@@ -1,0 +1,15 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-pointcloudrenderer-dev-182824-authRole",
+            "UnauthRoleArn": "arn:aws:iam::046008041246:role/amplify-pointcloudrenderer-dev-182824-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::046008041246:role/amplify-pointcloudrenderer-dev-182824-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-pointcloudrenderer-dev-182824-deployment",
+            "UnauthRoleName": "amplify-pointcloudrenderer-dev-182824-unauthRole",
+            "StackName": "amplify-pointcloudrenderer-dev-182824",
+            "StackId": "arn:aws:cloudformation:us-west-2:046008041246:stack/amplify-pointcloudrenderer-dev-182824/f9e94c80-c895-11ea-bdb5-0686cac6f814",
+            "AmplifyAppId": "djtoxub0vs5px"
+        }
+    }
+}

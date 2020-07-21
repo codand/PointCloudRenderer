@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { PointCloudAPI } from "./api/PointCloudAPI.js";
 import Canvas from "./Canvas.js";
 import useStyles from "./useStyles";
@@ -16,12 +16,17 @@ import useStyles from "./useStyles";
 function App() {
   const classes = useStyles();
   const [dataset, setDataset] = useState(null);
-  const [points, setPoints] = useState([]);
+  const [frame, setFrame] = useState({points: [], index: 0});
+  const [sliderValue, setSliderValue] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchPointCloud = (dataset, frameNum) => {
-    PointCloudAPI.loadFrame(dataset.id, frameNum)
+  const fetchPointCloud = (dataset, index) => {
+    setIsLoading(true);
+    PointCloudAPI.loadFrame(dataset.id, index)
       .then((points) => {
-        setPoints(points);
+        setFrame({points, index});
+        setIsLoading(false);
+        setSliderValue(index);
       })
       .catch((error) => {
         alert(error);
@@ -45,7 +50,7 @@ function App() {
   useEffect(() => {
 
     // Renders on mount and unmount
-    fetchDataset(0);
+    fetchDataset(1);
   }, [fetchDataset]);
 
   if (dataset === null) {
@@ -53,7 +58,7 @@ function App() {
   }
   return (
     <React.Fragment>
-      <Canvas points={points} />
+      <Canvas points={frame.points} />
       {/* <Sidebar /> */}
       <FormControl className={classes.controls}>
         <Select
@@ -70,6 +75,8 @@ function App() {
       <Box className={classes.timeline}>
         <Slider
           defaultValue={0}
+          disabled={isLoading} 
+          value={sliderValue}
           // getAriaValueText={() => "hi"}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
@@ -77,6 +84,7 @@ function App() {
           marks
           min={0}
           max={dataset.numFrames - 1}
+          onChange={(e, value) => setSliderValue(value)}
           onChangeCommitted={(e, value) => fetchPointCloud(dataset, value)}
         ></Slider>
       </Box>
