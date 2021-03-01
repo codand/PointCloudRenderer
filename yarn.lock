@@ -10263,10 +10263,10 @@ three-fly-controls@^2.0.0:
   resolved "https://registry.yarnpkg.com/three-fly-controls/-/three-fly-controls-2.0.0.tgz#fc2e4d38a786ef3b1a035a03c39de075f8d4263d"
   integrity sha512-0Ef+gtqprBBo8/7CRB0r4rLM02Y7GjUBeQ36D1G63nRQGXgBrh1H/yMUWRDz5586Z0bdzg+STUhiv8kSmPD58w==
 
-three@^0.118.3:
-  version "0.118.3"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.118.3.tgz#c0bf8c10a68155478f12f4ccac2ff979526a4a0a"
-  integrity sha512-ijECXrNzDkHieoeh2H69kgawTGH8DiamhR4uBN8jEM7VHSKvfTdEvOoHsA8Aq7dh7PHAxhlqBsN5arBI3KixSw==
+three@^0.125.0:
+  version "0.125.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.125.0.tgz#19e922b9dc51ad0b706893aeee888de68e99850a"
+  integrity sha512-qL36qUGsPQ/Ofo/RZdXwHwM7A8wzUSAIyawtjIebJSPvounUQeneSqxI0aBY2iwKpseGy+RUtj3C5f/z4poyXw==
 
 throat@^4.0.0:
   version "4.1.0"
