@@ -14,7 +14,7 @@
     "react-dom": "^16.13.1",
     "react-draggable": "^4.4.3",
     "react-scripts": "3.4.1",
-    "three": "^0.118.3",
+    "three": "^0.125.0",
     "three-fly-controls": "^2.0.0"
   },
   "scripts": {
